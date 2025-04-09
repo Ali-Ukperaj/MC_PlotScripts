@@ -9,7 +9,7 @@ def stdSHD(std_lamb, length):
     return stdSHD
 
 # Seq, N, mean_lambda, std_lambda, mean_SHD, std_SHD
-Array = np.loadtxt(f'Fig2_SubplotWhole_Data/80PointsArray', dtype=object, delimiter=',')
+Array = np.loadtxt(f'/Users/ali/Montecarlo/Montecarlo/80PointsArray', dtype=object, delimiter=',')
 for i in range(1, 7):
     Array[:, i] = Array[:, i].astype(float)
 
@@ -89,11 +89,44 @@ color_indices = np.array([np.digitize(val, color_values) - 1 for val in Array[:,
 # fig, axs = plt.subplots(2, 2, dpi=125, figsize=(8, 5))
 fig, axs = plt.subplots(1, 2, dpi=125, figsize=(8, 5))
 sc1 = axs[0].scatter(Array[:, 2], Array[:, 4], c='k') # c=Array[:, 6], cmap=cmap, norm=norm
-axs[0].plot(Array[:16, 2], Array[:16, 4], c='blue', linewidth=1.5, label='N = 25', alpha=0.55)
-axs[0].plot(Array[16:32, 2], Array[16:32, 4], c='red', linewidth=1.5, label='N = 50', alpha=0.55)
-axs[0].plot(Array[32:48, 2], Array[32:48, 4], c='purple', linewidth=1.5, label='N = 100', alpha=0.55)
-axs[0].plot(Array[48:64, 2], Array[48:64, 4], c='green', linewidth=1.5, label='N = 200', alpha=0.55)
-axs[0].plot(Array[64:80, 2], Array[64:80, 4], c='orange', linewidth=1.5, label='N = 400', alpha=0.55)
+# axs[0].plot(Array[:16, 2], Array[:16, 4], c='blue', linewidth=1.5, label='N = 25', alpha=0.55)
+# axs[0].plot(Array[16:32, 2], Array[16:32, 4], c='red', linewidth=1.5, label='N = 50', alpha=0.55)
+# axs[0].plot(Array[32:48, 2], Array[32:48, 4], c='purple', linewidth=1.5, label='N = 100', alpha=0.55)
+# axs[0].plot(Array[48:64, 2], Array[48:64, 4], c='green', linewidth=1.5, label='N = 200', alpha=0.55)
+# axs[0].plot(Array[64:80, 2], Array[64:80, 4], c='orange', linewidth=1.5, label='N = 400', alpha=0.55)
+def solveC1(N):
+    C1 = 2.7610*(N**0.2354)
+    return C1
+
+def meanSHDFinal(meanlam, N):
+    C1 = solveC1(N)
+    mnSHD = (C1*meanlam)
+    return mnSHD
+
+
+# Plot the original data with different colors for each N value
+N_data25 = np.array([25] * 16 + [50] * 16 + [100] * 16 + [200] * 16 + [400] * 16)
+x_data25 = Array[:, 2]
+y_data25 = Array[:, 4]
+
+axs[0].scatter(x_data25[N_data25 == 25], y_data25[N_data25 == 25], c='blue', label='N = 25', alpha=0.7)
+axs[0].scatter(x_data25[N_data25 == 50], y_data25[N_data25 == 50], c='red', label='N = 50', alpha=0.7)
+axs[0].scatter(x_data25[N_data25 == 100], y_data25[N_data25 == 100], c='purple', label='N = 100', alpha=0.7)
+axs[0].scatter(x_data25[N_data25 == 200], y_data25[N_data25 == 200], c='green', label='N = 200', alpha=0.7)
+axs[0].scatter(x_data25[N_data25 == 400], y_data25[N_data25 == 400], c='orange', label='N = 400', alpha=0.7)
+
+N_eval25 = meanSHDFinal(x_data25[N_data25 == 25], 25)
+N_eval50 = meanSHDFinal(x_data25[N_data25 == 50], 50)
+N_eval100 = meanSHDFinal(x_data25[N_data25 == 100], 100)
+N_eval200 = meanSHDFinal(x_data25[N_data25 == 200], 200)
+N_eval400 = meanSHDFinal(x_data25[N_data25 == 400], 400)
+
+axs[0].plot(x_data25[N_data25 == 25], N_eval25, c='blue')
+axs[0].plot(x_data25[N_data25 == 50], N_eval50, c='red')
+axs[0].plot(x_data25[N_data25 == 100], N_eval100, c='purple')
+axs[0].plot(x_data25[N_data25 == 200], N_eval200, c='green')
+axs[0].plot(x_data25[N_data25 == 400], N_eval400, c='orange')
+
 axs[0].set_xlabel('Mean(Lambda)', fontweight='bold')
 axs[0].set_ylabel('Mean(SHD)', fontweight='bold')
 
@@ -179,6 +212,6 @@ axs[1].set_yticks(y_ticks)
 axs[1].set_ylim(y_min, y_max)
 
 axs[0].legend()
-plt.savefig('Fig4_SubplotWhole.pdf')
+plt.savefig('Fig2_SubplotWhole.pdf')
 plt.tight_layout()
 plt.show()
