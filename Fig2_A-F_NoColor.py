@@ -18,7 +18,7 @@ def stdSHD(std_lamb, length):
     return (0.65 * (length ** (-0.45922))) * std_lamb
 
 # Seq, N, mean_lambda, std_lambda, mean_SHD, std_SHD
-Array = np.loadtxt(f'Fig2_A-F_Data/80PointsArray.txt', dtype=object, delimiter=',')
+Array = np.loadtxt(f'Fig2_SubplotWhole_Data/80PointsArray.txt', dtype=object, delimiter=',')
 for i in range(1, 7):
     Array[:, i] = Array[:, i].astype(float)
 
