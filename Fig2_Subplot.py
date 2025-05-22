@@ -9,7 +9,7 @@ def stdSHD(std_lamb, length):
     return stdSHD
 
 # Seq, N, mean_lambda, std_lambda, mean_SHD, std_SHD
-Array = np.loadtxt(f'/Users/ali/Montecarlo/Montecarlo/80PointsArray', dtype=object, delimiter=',')
+Array = np.loadtxt(f'Fig2_SubplotWhole_Data/80PointsArray', dtype=object, delimiter=',')
 for i in range(1, 7):
     Array[:, i] = Array[:, i].astype(float)
 
